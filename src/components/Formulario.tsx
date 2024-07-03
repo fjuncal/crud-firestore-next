@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Entrada from "./Entrada";
 import Cliente from "@/core/Cliente";
+import Botao from "./Botao";
 
 interface FormularioProps {
   cliente: Cliente;
@@ -29,6 +30,14 @@ export default function Formulario(props: FormularioProps) {
         valor={idade}
         valorMudou={setIdade}
       />
+      <div className="flex justify-end mt-7">
+        <Botao className="mr-2 bg-gradient-to-r from-blue-400 to-blue-700 ">
+          {id ? "Alterar" : "Salvar"}
+        </Botao>
+        <Botao className="bg-gradient-to-r from-gray-400 to-gray-700 ">
+          Cancelar
+        </Botao>
+      </div>
     </div>
   );
 }
