@@ -8,13 +8,15 @@ interface TabelaProps {
 }
 
 export default function Tabela(props: TabelaProps) {
+  const exibirAcoes = props.clienteExcluido || props.clienteSelecionado;
+
   function renderizarCabecalho() {
     return (
       <tr>
         <th className="text-left p-4">Código</th>
         <th className="text-left p-4">Nome</th>
         <th className="text-left p-4">Idade</th>
-        <th className="p-4">Ações</th>
+        {exibirAcoes ? <th className="p-4">Ações</th> : false}
       </tr>
     );
   }
@@ -29,7 +31,7 @@ export default function Tabela(props: TabelaProps) {
           <td className="text-left p-4">{cliente.id}</td>
           <td className="text-left p-4">{cliente.nome}</td>
           <td className="text-left p-4">{cliente.idade}</td>
-          {renderizarAcoes(cliente)}
+          {exibirAcoes ? renderizarAcoes(cliente) : false}
         </tr>
       );
     });
@@ -38,20 +40,28 @@ export default function Tabela(props: TabelaProps) {
   function renderizarAcoes(cliente: Cliente) {
     return (
       <td className="flex">
-        <button
-          className={`
+        {props.clienteSelecionado ? (
+          <button
+            className={`
         flex justify-center items-center p-2 m-1
         text-green-600 rounded-full hover:bg-purple-50`}
-        >
-          {IconeEdicao}
-        </button>
-        <button
-          className={`
-        flex justify-center items-center p-2 m-1
-        text-red-500 rounded-full hover:bg-purple-50`}
-        >
-          {IconeLixo}
-        </button>
+          >
+            {IconeEdicao}
+          </button>
+        ) : (
+          false
+        )}
+        {props.clienteExcluido ? (
+          <button
+            className={`
+       flex justify-center items-center p-2 m-1
+       text-red-500 rounded-full hover:bg-purple-50`}
+          >
+            {IconeLixo}
+          </button>
+        ) : (
+          false
+        )}
       </td>
     );
   }
