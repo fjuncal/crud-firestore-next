@@ -34,7 +34,7 @@ export default function Formulario(props: FormularioProps) {
       />
       <div className="flex justify-end mt-7">
         <Botao
-          onClick={() => props.clienteMudou?.(new Cliente(nome, idade, id))}
+          onClick={() => props.clienteMudou?.(new Cliente(nome, +idade, id))}
           className="mr-2 bg-gradient-to-r from-blue-400 to-blue-700 "
         >
           {id ? "Alterar" : "Salvar"}
