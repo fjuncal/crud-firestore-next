@@ -1,6 +1,6 @@
 import Cliente from "@/core/Cliente";
 import ClienteRepositorio from "@/core/ClienteRepositorio";
-import firebase from "firebase/compat/app";
+import firebase from "../config";
 
 export default class ColecaoCLiente implements ClienteRepositorio {
   readonly firestoreConverter: firebase.firestore.FirestoreDataConverter<Cliente> =

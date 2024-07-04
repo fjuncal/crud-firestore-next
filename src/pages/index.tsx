@@ -3,19 +3,25 @@ import Formulario from "@/components/Formulario";
 import Layout from "@/components/Layout";
 import Tabela from "@/components/Tabela";
 import Cliente from "@/core/Cliente";
-import { useState } from "react";
+import ClienteRepositorio from "@/core/ClienteRepositorio";
+import ColecaoCLiente from "@/firebase/db/ColecaoCliente";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const repo: ClienteRepositorio = new ColecaoCLiente();
+
   const [cliente, setCliente] = useState<Cliente>(Cliente.vazio());
+  const [clientes, setClientes] = useState<Cliente[]>([]);
   const [visivel, setVisivel] = useState<"tabela" | "form">("tabela");
 
-  const clientes = [
-    new Cliente("Ana", 22, "1"),
-    new Cliente("João", 32, "2"),
-    new Cliente("Maria", 22, "3"),
-    new Cliente("Pedro", 18, "4"),
-  ];
+  useEffect(obterTodos, []);
 
+  function obterTodos() {
+    repo.obterTodos().then((clientes) => {
+      setClientes(clientes);
+      setVisivel("tabela");
+    });
+  }
   function clienteSelecionado(cliente: Cliente) {
     setCliente(cliente);
     setVisivel("form");
@@ -28,9 +34,9 @@ export default function Home() {
     setCliente(Cliente.vazio());
     setVisivel("form");
   }
-  function salvarCliente(cliente: Cliente) {
-    console.log(cliente);
-    setVisivel("tabela");
+  async function salvarCliente(cliente: Cliente) {
+    await repo.salvar(cliente);
+    obterTodos();
   }
   return (
     <div
